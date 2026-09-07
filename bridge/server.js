@@ -268,6 +268,72 @@ const server = http.createServer(async (req, res) => {
       return res.end(JSON.stringify({ result }));
     }
 
+    // --- Set-of-Mark (SoM) Tagging Endpoints ---
+    if (req.method === "POST" && pathname === "/tags/create") {
+      const body = await readBody();
+      const result = await executeOnExtension("tag_elements", body);
+      res.writeHead(200);
+      return res.end(JSON.stringify(result));
+    }
+
+    if (req.method === "POST" && pathname === "/tags/clear") {
+      const body = await readBody();
+      const result = await executeOnExtension("clear_tags", body);
+      res.writeHead(200);
+      return res.end(JSON.stringify(result));
+    }
+
+    if (req.method === "POST" && pathname === "/click/badge") {
+      const body = await readBody();
+      const result = await executeOnExtension("click_badge", body);
+      res.writeHead(200);
+      return res.end(JSON.stringify(result));
+    }
+
+    // --- Human Handshake & Anti-Bot Endpoints ---
+    if (req.method === "POST" && pathname === "/handshake/detect") {
+      const body = await readBody();
+      const result = await executeOnExtension("detect_challenge", body);
+      res.writeHead(200);
+      return res.end(JSON.stringify(result));
+    }
+
+    // --- In-Page Omnibar Endpoints ---
+    if (req.method === "POST" && pathname === "/omnibar/toggle") {
+      const body = await readBody();
+      const result = await executeOnExtension("toggle_omnibar", body);
+      res.writeHead(200);
+      return res.end(JSON.stringify(result));
+    }
+
+    if (req.method === "POST" && pathname === "/omnibar/prompt") {
+      const body = await readBody();
+      console.log("[Omnibar Prompt Received]:", body);
+      res.writeHead(200);
+      return res.end(JSON.stringify({ received: true, prompt: body.prompt }));
+    }
+
+    // --- CDP Macro Recorder Endpoints ---
+    if (req.method === "POST" && pathname === "/record/start") {
+      const body = await readBody();
+      const result = await executeOnExtension("start_recording", body);
+      res.writeHead(200);
+      return res.end(JSON.stringify(result));
+    }
+
+    if (req.method === "POST" && pathname === "/record/stop") {
+      const body = await readBody();
+      const result = await executeOnExtension("stop_recording", body);
+      res.writeHead(200);
+      return res.end(JSON.stringify(result));
+    }
+
+    if (req.method === "GET" && pathname === "/record/recipe") {
+      const result = await executeOnExtension("get_recorded_recipe");
+      res.writeHead(200);
+      return res.end(JSON.stringify(result));
+    }
+
     res.writeHead(404);
     res.end(JSON.stringify({ error: "Endpoint not found" }));
   } catch (err) {

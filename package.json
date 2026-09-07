@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "Visual AI Browser Controller for Antigravity IDE, Claude Code, and Local LLM Agents with Native Chrome DevTools Protocol (CDP) and Animated Laser Cursor.",
   "main": "bridge/client.js",
+  "bin": {
+    "antigravity-bridge": "./bridge/server.js"
+  },
   "scripts": {
     "start": "node bridge/server.js",
-    "test": "node test/sanitize-check.test.js && node test/bridge-api.test.js",
+    "test": "node test/sanitize-check.test.js && node test/bridge-api.test.js && node test/features.test.js",
     "demo": "node bridge/demo.js",
     "status": "node bridge/test-connection.js"
   },

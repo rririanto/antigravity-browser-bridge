@@ -103,6 +103,43 @@ const browser = {
     const payload = typeof code === "string" ? { code, tabId } : code;
     const res = await request("POST", "/eval", payload);
     return res.result;
+  },
+
+  // --- Feature 1: Set-of-Mark (SoM) Interactive Tagging ---
+  async tagElements(tabId = undefined) {
+    return await request("POST", "/tags/create", { tabId });
+  },
+
+  async clearTags(tabId = undefined) {
+    return await request("POST", "/tags/clear", { tabId });
+  },
+
+  async clickBadge(badgeId, options = {}) {
+    const payload = typeof options === "string" ? { actionLabel: options } : options;
+    return await request("POST", "/click/badge", { badgeId, ...payload });
+  },
+
+  // --- Feature 2: Stealth Human Handshake (Anti-Bot & 2FA) ---
+  async detectChallenge(tabId = undefined) {
+    return await request("POST", "/handshake/detect", { tabId });
+  },
+
+  // --- Feature 3: In-Page Floating AI Omnibar ---
+  async toggleOmnibar(tabId = undefined) {
+    return await request("POST", "/omnibar/toggle", { tabId });
+  },
+
+  // --- Feature 4: One-Click CDP Macro Recorder ---
+  async startRecording(tabId = undefined) {
+    return await request("POST", "/record/start", { tabId });
+  },
+
+  async stopRecording(tabId = undefined) {
+    return await request("POST", "/record/stop", { tabId });
+  },
+
+  async getRecipe() {
+    return await request("GET", "/record/recipe");
   }
 };
 

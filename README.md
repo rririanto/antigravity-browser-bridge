@@ -6,9 +6,9 @@
 [![Protocol](https://img.shields.io/badge/Protocol-Chrome%20DevTools%20(CDP)-orange.svg)](https://chromedevtools.github.io/devtools-protocol/)
 
 > **Next-Generation Visual AI Browser Controller for Antigravity IDE, Claude Code, and Local AI Agents.**  
-> Control your everyday Google Chrome browser directly using **Native Chrome DevTools Protocol (CDP)** and an **Animated Visual Laser Cursor**. Zero headless sandboxes, zero credential exposure, and zero monthly subscription fees.
+> Control your everyday Google Chrome browser directly using **Native Chrome DevTools Protocol (CDP)**, **Set-of-Mark (SoM) Tagging**, **In-Page AI Omnibar**, and an **Animated Visual Laser Cursor**. Zero headless sandboxes, zero credential exposure, and zero monthly subscription fees.
 
-[🇮🇩 Baca Dokumentasi Bahasa Indonesia](README.id.md)
+[🇮🇩 Baca Dokumentasi Bahasa Indonesia](README.id.md) | [📖 Complete Documentation Hub](docs/INSTALLATION.md)
 
 ---
 
@@ -24,193 +24,119 @@ Giving an AI agent access to a web browser usually forces a painful compromise: 
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Execution Host** | **100% Localhost** (`127.0.0.1`) | Remote cloud server | Cloud Virtual Machine | Local macOS/Windows | Local / Cloud server |
 | **Active Session Re-use** | **Instant** (Uses your logged-in Chrome) | ❌ None (No sessions) | ⚠️ Requires typing passwords in cloud VM | ⚠️ Limited to active window | ❌ Requires fresh login or cookie import |
+| **Visual Grounding** | **Set-of-Mark (SoM) Badges** | ❌ None | ⚠️ Vision-only pixel guessing (10–20px misclicks) | Accessibility tree | CSS / XPath only |
 | **Input Event Type** | **True Native CDP** (`isTrusted: true`) | ❌ Read-only (No actions) | Remote VM synthetic events | OS Accessibility API | Synthetic JS / CDP |
-| **Visual Human Audit** | **Animated Laser Cursor & Badges** | ❌ None | Remote video stream | ❌ None | Headless (Blind by default) |
-| **Anti-Bot / 2FA Handling** | **Seamless** (Human can solve 2FA anytime) | ❌ Blocked by Cloudflare | Frequently flagged / blocked | N/A | High bot detection rate |
-| **Data & Credential Privacy** | **Zero Cloud Leakage** (Local socket) | Data sent to OpenAI | Credentials exposed to cloud VM | Screenshots sent to cloud | Local (Code only) |
+| **Anti-Bot / 2FA Handling** | **🤝 Stealth Human Handshake** (Chime + Auto-Resume) | ❌ Blocked by Cloudflare | Frequently flagged / blocked | N/A | High bot detection rate |
+| **In-Page Command Bar** | **💬 Floating Omnibar (`Cmd+Shift+K`)** | ❌ None | ❌ None | ❌ None | ❌ None |
+| **Workflow Learning** | **⏺️ CDP Macro Recorder** | ❌ None | ❌ None | ❌ None | Code recording only |
+| **Safety Guardrails** | **🚨 Hover & Confirm Red Alert** | ❌ None | ❌ None | ❌ None | ❌ None |
+| **Data & Credential Privacy**| **Zero Cloud Leakage** (Local socket) | Data sent to OpenAI | Credentials exposed to cloud VM | Screenshots sent to cloud | Local (Code only) |
 | **Cost & Rate Limits** | **100% Free & Unlimited** (MIT) | $20/month + rate limits | $200/month Pro tier + strict caps | $20/month subscription | Free (Tool only) |
 | **AI Framework Freedom** | **Universal** (Antigravity, Claude, Python) | ChatGPT UI only | OpenAI ecosystem only | ChatGPT UI only | Any programming language |
 
 ---
 
-## 🌟 Key Features
+## 🌟 5 Advanced Superpowers
 
-1. **Visual Laser Cursor & Action Badges:**
-   - Smooth animated neon laser cursor glides to target coordinates before clicking.
-   - Expanding ripple wave animation visually confirms click locations.
-   - Floating action badges show real-time agent intentions (*"Clicking Save"*, *"Updating budget"*).
-2. **True Native CDP (`chrome.debugger`):**
-   - Emits hardware-level input events via `Input.dispatchMouseEvent` and `Input.dispatchKeyEvent`.
-   - All interactions carry `isTrusted: true`, preventing clicks from being dropped by complex SPAs (React, Angular, Google Ads).
-3. **Works Directly in Your Daily Chrome Profile:**
-   - Controls your existing tabs without incognito windows or re-authenticating with Google Ads, Analytics, AWS, or Gmail.
-4. **Zero-Dependency Local Bridge:**
-   - Pure Node.js HTTP & RFC 6455 WebSocket gateway running on `http://127.0.0.1:8765`. No bloated `npm install` needed.
-5. **100% Local Privacy:**
-   - DOM trees, tab queries, and screenshots stay strictly on your local machine.
+1. **🏷️ Set-of-Mark (SoM) Interactive Tagging:**
+   - Injects glowing numbered badges (`[1]`, `[2]`, `[3]`) directly over viewport elements.
+   - Eliminates vision model coordinate jitter and misclicks; click deterministically with `browser.clickBadge(4)`.
+   - [Read the SoM Guide &rarr;](docs/FEATURES.md#1-set-of-mark-som-interactive-tagging)
 
----
+2. **🤝 Stealth Human Handshake (Anti-Bot & 2FA Co-Pilot):**
+   - Automatically detects Cloudflare Turnstiles, reCAPTCHAs, and 2FA challenges.
+   - Pauses execution, sounds a soft synthesized audio chime, turns the laser cursor amber, and auto-resumes the moment you complete the challenge.
+   - [Read the Handshake Guide &rarr;](docs/FEATURES.md#2-stealth-human-handshake-2fa--anti-bot-co-pilot)
 
-## 🏗️ Architecture
+3. **💬 In-Page Floating AI Omnibar (`Cmd+Shift+K`):**
+   - Press `Cmd+Shift+K` (Mac) or `Ctrl+Shift+K` (Win/Linux) on any active tab to summon a glassmorphic command HUD.
+   - Prompt your local AI directly without opening a screen-squishing sidebar.
+   - [Read the Omnibar Guide &rarr;](docs/FEATURES.md#3-in-page-floating-ai-omnibar-cmdshiftk)
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│             Your AI Agent Stack                             │
-│   (Antigravity IDE / Gemini, Claude Code, Custom Script)    │
-└──────────────────────────────┬──────────────────────────────┘
-                               │ HTTP / WebSocket REST calls
-                               ▼
-┌─────────────────────────────────────────────────────────────┐
-│          Local Bridge Server (`bridge/server.js`)           │
-│             http://127.0.0.1:8765 (Zero-Dependencies)       │
-└──────────────────────────────┬──────────────────────────────┘
-                               │ WebSocket (RFC 6455)
-                               ▼
-┌─────────────────────────────────────────────────────────────┐
-│         Chrome Extension (Manifest V3 Service Worker)       │
-│        - Injects Visual Laser Cursor (content.js)           │
-│        - Executes Native CDP Input Commands (debugger API)  │
-└──────────────────────────────┬──────────────────────────────┘
-                               │ Trusted Hardware-Level Events
-                               ▼
-┌─────────────────────────────────────────────────────────────┐
-│            Active Google Chrome Browser Tab                 │
-│      (Google Ads, Meta Ads, Custom Dashboards, etc.)        │
-└─────────────────────────────────────────────────────────────┘
-```
+4. **⏺️ One-Click CDP Macro Recorder ("Demonstrate & Automate"):**
+   - Record your manual clicks, navigations, and keystrokes in Chrome.
+   - Exports clean, parameterized Node.js automation recipes.
+   - [Read the Macro Recorder Guide &rarr;](docs/FEATURES.md#4-one-click-cdp-macro-recorder-demonstrate--automate)
+
+5. **🚨 Financial & Safety Guardrails ("Hover & Confirm"):**
+   - Automatically intercepts high-risk clicks (`Delete`, `Pay`, `Transfer`, high budget inputs).
+   - Holds the laser cursor in a pulsing red alert state pending explicit human approval (`Spacebar` or click).
+   - [Read the Guardrails Guide &rarr;](docs/FEATURES.md#5-financial--safety-guardrails-hover--confirm)
 
 ---
 
-## 🚀 Quickstart (Under 60 Seconds)
+## 📚 Documentation Hub
 
-### Step 1: Start the Local Bridge Server
+- 🛠️ **[Installation & Setup Guide](docs/INSTALLATION.md)** — Step-by-step for macOS, Windows, and Linux.
+- 🚀 **[Advanced Features Walkthrough](docs/FEATURES.md)** — Deep dive into SoM, Handshake, Omnibar, and Guardrails.
+- 🔌 **[Agent Integrations](docs/INTEGRATIONS.md)** — Ready-to-use recipes for Antigravity IDE, Claude Code, Python, and REST.
+- 🔧 **[Troubleshooting & FAQ](docs/TROUBLESHOOTING.md)** — Resolving port conflicts, debugger notices, and extension states.
+
+---
+
+## 🚀 60-Second Quickstart
+
+### Step 1: Start the Bridge Server
 ```bash
 # Clone the repository
 git clone https://github.com/rririanto/antigravity-browser-bridge.git
 cd antigravity-browser-bridge
 
-# Start the zero-dependency bridge server
-npm start
-# Or run: node bridge/server.js
-```
-*The server will start listening on `http://127.0.0.1:8765`.*
+# On macOS / Linux:
+./start-bridge.sh
 
----
+# On Windows:
+start-bridge.bat
+
+# Or run directly via npm:
+npm start
+```
 
 ### Step 2: Load the Extension into Google Chrome
-1. Open **Google Chrome** and navigate to `chrome://extensions`.
-2. Enable **Developer mode** using the toggle switch in the top-right corner.
-3. Click **Load unpacked** in the top-left corner.
-4. Select the `antigravity-browser-bridge` repository folder.
-5. The **Antigravity Browser Bridge** icon will appear on your Chrome toolbar with a green **ON** badge.
+1. Open Chrome and navigate to `chrome://extensions`.
+2. Enable **Developer mode** (top-right toggle).
+3. Click **Load unpacked** (top-left button).
+4. Select the `antigravity-browser-bridge` folder.
+5. The extension will activate with a green **ON** badge!
 
----
-
-### Step 3: Test the Connection
-Run the connection verification script:
+### Step 3: Test Connection
 ```bash
 npm run status
-# Or run: node bridge/test-connection.js
 ```
-You will see all your currently open Chrome tabs listed directly in the terminal!
 
 ---
 
-## 💻 Code Examples
+## 💻 Code Example
 
-### JavaScript / Node.js
 ```javascript
 const browser = require("./bridge/client.js");
 
-async function main() {
-  // 1. Focus your open Google Ads tab
+async function run() {
+  // 1. Focus active Google Ads tab
   await browser.focusTab({ urlContains: "ads.google.com" });
 
-  // 2. Click a button with visual laser cursor feedback
-  await browser.click({
-    text: "Save",
-    actionLabel: "Saving campaign changes"
-  });
+  // 2. Tag elements with Set-of-Mark
+  const catalog = await browser.tagElements();
+  console.log(`Tagged ${catalog.taggedCount} buttons!`);
 
-  // 3. Type text via native DevTools keyboard events
-  await browser.type("50000");
+  // 3. Click Badge #1 with visual laser glide
+  await browser.clickBadge(1, "Clicking Primary Action");
 
-  // 4. Extract structured semantic DOM elements
-  const dom = await browser.getDOM();
-  console.log("Found interactive elements:", dom.elements);
-
-  // 5. Capture a full tab screenshot
-  const shot = await browser.screenshot();
+  // 4. Clear badges
+  await browser.clearTags();
 }
 
-main();
+run();
 ```
-
-### Direct HTTP REST API (Any Language / `curl`)
-```bash
-# Focus tab
-curl -X POST http://127.0.0.1:8765/tab/focus \
-  -H "Content-Type: application/json" \
-  -d '{"urlContains": "google"}'
-
-# Visual Click
-curl -X POST http://127.0.0.1:8765/click \
-  -H "Content-Type: application/json" \
-  -d '{"text": "Search", "actionLabel": "Executing Search"}'
-
-# Native Key Typing
-curl -X POST http://127.0.0.1:8765/type \
-  -H "Content-Type: application/json" \
-  -d '{"text": "Artificial Intelligence"}'
-```
-
----
-
-## 📁 Repository Structure
-
-```
-antigravity-browser-bridge/
-├── manifest.json              # Chrome Manifest V3 configuration
-├── background.js              # Service worker (WebSocket client + CDP controller)
-├── content.js                 # Laser cursor overlay + coordinate resolver
-├── content.css                # Styling for neon laser cursor, ripple, and badges
-├── popup.html                 # Extension popup interface
-├── popup.js                   # Popup connection status indicator
-├── icons/                     # Extension icons (16, 48, 128)
-├── start-bridge.sh            # One-click startup shell script
-├── package.json               # Package metadata and test scripts
-├── LICENSE                    # MIT License
-├── bridge/
-│   ├── server.js              # Zero-dependency local HTTP/WebSocket bridge
-│   ├── client.js              # High-level client library for AI agents
-│   ├── test-connection.js     # Connection and tab discovery diagnostic
-│   ├── demo.js                # Quick interactive demonstration
-│   └── run-live-demo.js       # Live visual browser execution demo
-├── test/
-│   ├── sanitize-check.test.js # Security and path sanitization test
-│   └── bridge-api.test.js     # Automated bridge lifecycle test
-├── README.md                  # English Documentation
-└── README.id.md               # Dokumentasi Bahasa Indonesia
-```
-
----
-
-## 🔒 Security & Privacy
-
-- **No Remote Telemetry:** The bridge server binds exclusively to `127.0.0.1`. No external network requests are made.
-- **Permission Transparency:**
-  - `debugger`: Required by `chrome.debugger` to dispatch native CDP input events (`Input.dispatchMouseEvent`, `Input.dispatchKeyEvent`).
-  - `tabs` & `activeTab`: Required to focus, switch, and query open tabs.
-  - `<all_urls>`: Required to inject the visual laser cursor overlay on any tab you automate.
 
 ---
 
 ## 🧪 Automated Testing
 
-Run the test suite to verify code sanitization and API health:
 ```bash
 npm test
 ```
+Runs the sanitization audit, bridge lifecycle tests, and advanced feature seam validations.
 
 ---
 
