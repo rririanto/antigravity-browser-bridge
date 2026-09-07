@@ -76,6 +76,7 @@ function connectToBridge() {
     };
 
     ws.onclose = () => {
+      console.log("[Antigravity Bridge] Connection closed. Auto-reconnecting in 2.5s...");
       chrome.action.setBadgeText({ text: "" });
       stopHeartbeat();
       ws = null;
@@ -83,6 +84,7 @@ function connectToBridge() {
     };
 
     ws.onerror = () => {
+      console.warn("[Antigravity Bridge] Bridge server not reachable at ws://127.0.0.1:8765. Start the server with 'npm start' or './start-bridge.sh'. Retrying in 2.5s...");
       chrome.action.setBadgeText({ text: "ERR" });
       chrome.action.setBadgeBackgroundColor({ color: "#ef4444" });
       stopHeartbeat();
