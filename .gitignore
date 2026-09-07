@@ -1,0 +1,20 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/
+
+# Logs & Debugging
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Generated test screenshots / temp artifacts
+test-screenshot.png
+live_demo_screenshot.png
+
+# Environment
+.env
+.env.local

@@ -1,0 +1,37 @@
+{
+  "name": "antigravity-browser-bridge",
+  "version": "1.0.0",
+  "description": "Visual AI Browser Controller for Antigravity IDE, Claude Code, and Local LLM Agents with Native Chrome DevTools Protocol (CDP) and Animated Laser Cursor.",
+  "main": "bridge/client.js",
+  "scripts": {
+    "start": "node bridge/server.js",
+    "test": "node test/sanitize-check.test.js && node test/bridge-api.test.js",
+    "demo": "node bridge/demo.js",
+    "status": "node bridge/test-connection.js"
+  },
+  "keywords": [
+    "antigravity",
+    "gemini",
+    "chrome-extension",
+    "cdp",
+    "browser-automation",
+    "ai-agent",
+    "claude-code",
+    "devtools-protocol",
+    "visual-cursor",
+    "local-ai"
+  ],
+  "author": "Rahmat Ramadhan Irianto <rahmat.ramadhaniriyanto@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rririanto/antigravity-browser-bridge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rririanto/antigravity-browser-bridge/issues"
+  },
+  "homepage": "https://github.com/rririanto/antigravity-browser-bridge#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
